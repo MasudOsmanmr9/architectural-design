@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require('./auth');
-const { authenticateToken } = require('./authMiddleware');
+const { authenticateToken } = require('./middleware/authMiddleware');
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
@@ -27,3 +27,4 @@ router.post('/token', async (req, res) => {
 
 router.get('/protected', authenticateToken, (req, res) => {
   res.json({ message: 'Protected resource', user: req.user });
+});

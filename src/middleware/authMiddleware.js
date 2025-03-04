@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const secretTokenService = require('./secretTokenService');
-const users = require('./users');
+const secretTokenService = require('../secretTokenService');
+const users = require('../users');
 require('dotenv').config();
 
 async function authenticateToken(req, res, next) {
