@@ -1,15 +1,20 @@
-const { Entity, PrimaryGeneratedColumn, Column } = require('typeorm');
+const AppDataSource = require('./db');
+const SecretToken = require('./entities/SecretToken');
 
-@Entity()
-class SecretToken {
-  @PrimaryGeneratedColumn()
-  id;
+const secretTokenRepository = AppDataSource.getRepository(SecretToken);
 
-  @Column()
-  token;
-
-  @Column()
-  user_id;
+async function createSecretToken(token, userId) {
+  await secretTokenRepository.delete({ user_id: userId });
+  const secret = secretTokenRepository.create({ token, user_id: userId });
+  return await secretTokenRepository.save(secret);
 }
 
-module.exports = SecretToken;
+async function findSecretToken(userId, token) {
+  return secretTokenRepository.findOne({ where: { user_id: userId, token } });
+}
+
+async function deleteSecretToken(userId, token) {
+  return secretTokenRepository.delete({ user_id: userId, token });
+}
+
+module.exports = { createSecretToken, findSecretToken, deleteSecretToken };

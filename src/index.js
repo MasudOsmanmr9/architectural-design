@@ -25,3 +25,14 @@ AppDataSource.initialize()
   .catch((err) => {
     console.error('Error initializing Data Source:', err);
   });
+
+
+  process.on('SIGINT', () => {
+    redisClient.quit(() => {
+      console.log('Redis connection closed');
+      process.exit();
+    });
+  });
+
+
+  and i am also concern about server storage where idempotency key and its associated result is stored
